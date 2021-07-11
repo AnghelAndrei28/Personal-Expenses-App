@@ -17,7 +17,7 @@ class _NewTransactionState extends State<NewTransaction> {
   final _amountController = TextEditingController();
 
   void _submit() {
-    if(_amountController.text.isEmpty) {
+    if (_amountController.text.isEmpty) {
       return;
     }
     final enteredTitle = _titleController.text;
@@ -43,7 +43,7 @@ class _NewTransactionState extends State<NewTransaction> {
       firstDate: DateTime(2021),
       lastDate: DateTime.now(),
     ).then((value) {
-      if(value == null) {
+      if (value == null) {
         return;
       }
       setState(() {
@@ -54,50 +54,58 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-                onSubmitted: (_) => _submit(),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                onSubmitted: (_) => _submit(),
-              ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(_pickedDate == null ?
-                        'No date chosen!' : 'Chosen date: ${DateFormat.yMd().format(_pickedDate)}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    FlatButton(
-
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text('Choose Date'),
-                      onPressed: _presentDatePicker,
-                    ),
-                  ],
+    return SingleChildScrollView(
+      child: Card(
+          elevation: 5,
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextField(
+                  decoration: InputDecoration(labelText: 'Title'),
+                  controller: _titleController,
+                  onSubmitted: (_) => _submit(),
                 ),
-              ),
-              FlatButton(
-                child: Text('Add Transaction'),
-                textColor: Colors.red,
-                onPressed: _submit,
-              ),
-            ],
-          ),
-        ));
+                TextField(
+                  decoration: InputDecoration(labelText: 'Amount'),
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (_) => _submit(),
+                ),
+                Container(
+                  height: 70,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _pickedDate == null
+                              ? 'No date chosen!'
+                              : 'Chosen date: ${DateFormat.yMd().format(_pickedDate)}',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      FlatButton(
+                        textColor: Theme.of(context).primaryColor,
+                        child: Text('Choose Date'),
+                        onPressed: _presentDatePicker,
+                      ),
+                    ],
+                  ),
+                ),
+                FlatButton(
+                  child: Text('Add Transaction'),
+                  textColor: Colors.red,
+                  onPressed: _submit,
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }
